@@ -1,9 +1,15 @@
 import user from '../images/user.jpg';
 import { Link } from "react-router-dom";
+import { useContact } from '../context/ContactContext';
 
 const ContactCard = (props) => {
  
+    const {removeContactHandler} = useContact();
     const { id, name, email} = props.contact;
+
+    const deleteContact = (id) => {
+       removeContactHandler(id);
+    }
 
     return (
         <div className="item">
@@ -16,7 +22,7 @@ const ContactCard = (props) => {
               </div>
               <i className="trash alternate outline icon right floated" 
                  style={{color:"red", marginTop: "7px", marginLeft: "10px"}}
-                 onClick={() => props.clickHandler(id)}
+                 onClick={() => deleteContact(id)}
                ></i>
               <Link to={`/edit`} state={props.contact}>
                 <i className="edit alternate outline icon right floated" 

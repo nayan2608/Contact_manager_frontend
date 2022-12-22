@@ -1,17 +1,25 @@
 import ContactCard from "./ContactCard";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useContact } from "../context/ContactContext";
 
-const ContactList = (props) => {
+const ContactList = () => {
+   
+   const {contacts, retrieveContacts, searchHandler, text, searchResults} = useContact();
 
-   const deleteContactHabdler = (id) =>{
-      props.getContactId(id);
-   };
+   useEffect(() => {
+      retrieveContacts();
+   },[]);  // eslint-disable-line react-hooks/exhaustive-deps
 
-   const renderContactList = props.contacts.map((contact) => {
+   const renderContactList = (text.length < 1 ? contacts : searchResults)?.map((contact) => {
       return (
-          <ContactCard contact={contact} clickHandler={deleteContactHabdler} key={contact.id}/>
+          <ContactCard contact={contact} key={contact.id}/>
       ); 
-   })
+   });
+
+   const userSearch = (e) => {
+      searchHandler(e.target.value);
+   }
 
    return (
       <div className="ui celled list">
@@ -20,11 +28,11 @@ const ContactList = (props) => {
               <button className="ui button blue right floated">Add Contact</button>
             </Link>
          </h2>
-         {/* <div className="ui fluid icon input" style={{marginBottom: "15px"}}>
-              <input type="text" placeholder="Search Contacts" className="prompt" />
+         <div className="ui fluid icon input" style={{marginBottom: "15px"}}>
+              <input type="text" placeholder="Search Contacts" className="prompt" value={text} onChange={(e) => userSearch(e)}/>
               <i className="search icon"></i>
-         </div> */}
-         {renderContactList}
+         </div>
+         {renderContactList && renderContactList.length > 0 ? renderContactList : "No Contacts available"}
       </div>
    );
 }
