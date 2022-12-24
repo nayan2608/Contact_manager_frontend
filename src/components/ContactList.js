@@ -5,7 +5,7 @@ import { useContact } from "../context/ContactContext";
 
 const ContactList = () => {
    
-   const {contacts, retrieveContacts, searchHandler, text, searchResults} = useContact();
+   const {contacts, retrieveContacts, searchHandler, text, searchResults, loading} = useContact();
 
    useEffect(() => {
       retrieveContacts();
@@ -32,7 +32,7 @@ const ContactList = () => {
               <input type="text" placeholder="Search Contacts" className="prompt" value={text} onChange={(e) => userSearch(e)}/>
               <i className="search icon"></i>
          </div>
-         {renderContactList && renderContactList.length > 0 ? renderContactList : "No Contacts available"}
+         {loading ? "Loading" : renderContactList && renderContactList.length > 0 ? renderContactList : "No Contacts available"}
       </div>
    );
 }

@@ -9,13 +9,16 @@ export function ContactContextProvider ({children}) {
      const [contacts, setContacts] = useState(); 
      const [text, setText] = useState("");
      const [searchResults, setSearchResults] = useState([]);
+     const [loading, setLoading] = useState(false);
 
      // retrievecontact
      const retrieveContacts = async () => {
+        setLoading(true);
         const response = await api.get("/contacts");
         if (response.data) {
             setContacts(response.data);
         }
+        setLoading(false);
      }
 
      // removecontact
@@ -71,6 +74,7 @@ export function ContactContextProvider ({children}) {
      const value = {
          text,
          contacts,
+         loading,
          retrieveContacts,
          removeContactHandler,
          addContactHandler,
