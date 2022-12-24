@@ -21,6 +21,14 @@ const ContactList = () => {
       searchHandler(e.target.value);
    }
 
+   const loader = (
+      <div class="ui disabled segment" style={{height: "50vh"}}>
+         <div class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
+         </div>
+      </div>
+   );
+
    return (
       <div className="ui celled list">
          <h2>Contact List
@@ -32,7 +40,7 @@ const ContactList = () => {
               <input type="text" placeholder="Search Contacts" className="prompt" value={text} onChange={(e) => userSearch(e)}/>
               <i className="search icon"></i>
          </div>
-         {loading ? "Loading" : renderContactList && renderContactList.length > 0 ? renderContactList : "No Contacts available"}
+         {loading ? loader : renderContactList && renderContactList.length > 0 ? renderContactList : "No Contacts available"}
       </div>
    );
 }
